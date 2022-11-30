@@ -32,14 +32,9 @@ mut:
 	mujs_state &C.js_State
 }
 
-// Values from a state
-struct VMuJSValue {
-	integer int
-}
-
 // Create a new state
 // strict_mode: if true, the state will be in JS strict mode
-fn new_state(strict_mode bool) &VMuJS {
+pub fn new_state(strict_mode bool) &VMuJS {
 	mut vm := &VMuJS{
 		mujs_state: 0
 	}
@@ -50,20 +45,21 @@ fn new_state(strict_mode bool) &VMuJS {
 		false { 0 }
 	}
 
+	// Create the state
 	vm.mujs_state = C.js_newstate(voidptr(0), 0, mujs_flags)
 
 	return vm
 }
 
 // Destroy a state
-fn (vm &VMuJS) destroy() {
+pub fn (vm &VMuJS) destroy() {
 	C.js_freestate(vm.mujs_state)
 }
 
 // Push a line of code to the state
-fn (vm &VMuJS) push_code(code string) {
-	unsafe {
-		C.js_dostring(vm.mujs_state, code.str)
+pub fn (vm &VMuJS) push_code(code string) ! {
+	if C.js_dostring(vm.mujs_state, code.str) == 1 {
+		return error('Error while pushing code to the state')
 	}
 }
 
@@ -74,37 +70,61 @@ fn (vm &VMuJS) load_file(file string) {
 	}
 }
 
+// Garbage collect the state
+fn (vm &VMuJS) gc() {
+	unsafe {
+		C.js_gc(vm.mujs_state, 0)
+	}
+}
+
 // Get a int global variable from the state
-fn (vm &VMuJS) get_global_int(name string) int {
+pub fn (vm &VMuJS) get_global_int(name string) !int {
 	C.js_getglobal(vm.mujs_state, name.str)
 	number := C.js_tointeger(vm.mujs_state, -1)
+
+	if C.js_isundefined(vm.mujs_state, -1) == 1 {
+		return error('Error while getting global int')
+	}
+
 	C.js_pop(vm.mujs_state, 1)
 	return number
 }
 
 // Get a float global variable from the state
-fn (vm &VMuJS) get_global_float(name string) f64 {
+pub fn (vm &VMuJS) get_global_float(name string) !f64 {
 	C.js_getglobal(vm.mujs_state, name.str)
 	number := C.js_tonumber(vm.mujs_state, -1)
+	if C.js_isundefined(vm.mujs_state, -1) == 1 {
+		return error('Error while getting global float')
+	}
 	C.js_pop(vm.mujs_state, 1)
 	return number
 }
 
 // Get a string global variable from the state
-fn (vm &VMuJS) get_global_string(name string) string {
-	C.js_getglobal(vm.mujs_state, name.str)
+pub fn (vm &VMuJS) get_global_string(name string) !string {
 	mut str := ""
+	C.js_getglobal(vm.mujs_state, name.str)
+	raw_value := C.js_tostring(vm.mujs_state, -1)
+
+	if C.js_isundefined(vm.mujs_state, -1) == 1 {
+		return error('Error while getting global string')
+	}
+
 	unsafe {
-		str = cstring_to_vstring(C.js_tostring(vm.mujs_state, -1))
+		str = cstring_to_vstring(raw_value)
 	}
 	C.js_pop(vm.mujs_state, 1)
 	return str
 }
 
 // Get a bool global variable from the state
-fn (vm &VMuJS) get_global_bool(name string) bool {
+pub fn (vm &VMuJS) get_global_bool(name string)!bool {
 	C.js_getglobal(vm.mujs_state, name.str)
 	number := C.js_toboolean(vm.mujs_state, -1)
+	if C.js_isundefined(vm.mujs_state, -1) == 1 {
+		return error('Error while getting global bool')
+	}
 	C.js_pop(vm.mujs_state, 1)
 	return match number {
 		0 { false }
