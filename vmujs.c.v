@@ -1,8 +1,12 @@
 module vmujs
 
 // Import the MuJS module for compiling
+#include "@VROOT/mujs/mujs.h"
+
+#flag -I @VROOT/mujs/regexp.h
 #flag -I @VROOT/mujs/mujs.h
-#flag @VROOT/mujs/one.o
+
+#flag @VROOT/mujs/one.c
 
 // @TODO: Wrap consts into proper enums
 const (
@@ -30,6 +34,7 @@ const (
 )
 
 // JS State
+[typedef]
 struct C.js_State {}
 
 // MuJS version
