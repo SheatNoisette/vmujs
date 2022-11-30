@@ -81,3 +81,33 @@ fn (vm &VMuJS) get_global_int(name string) int {
 	C.js_pop(vm.mujs_state, 1)
 	return number
 }
+
+// Get a float global variable from the state
+fn (vm &VMuJS) get_global_float(name string) f64 {
+	C.js_getglobal(vm.mujs_state, name.str)
+	number := C.js_tonumber(vm.mujs_state, -1)
+	C.js_pop(vm.mujs_state, 1)
+	return number
+}
+
+// Get a string global variable from the state
+fn (vm &VMuJS) get_global_string(name string) string {
+	C.js_getglobal(vm.mujs_state, name.str)
+	mut str := ""
+	unsafe {
+		str = cstring_to_vstring(C.js_tostring(vm.mujs_state, -1))
+	}
+	C.js_pop(vm.mujs_state, 1)
+	return str
+}
+
+// Get a bool global variable from the state
+fn (vm &VMuJS) get_global_bool(name string) bool {
+	C.js_getglobal(vm.mujs_state, name.str)
+	number := C.js_toboolean(vm.mujs_state, -1)
+	C.js_pop(vm.mujs_state, 1)
+	return match number {
+		0 { false }
+		else { true }
+	}
+}

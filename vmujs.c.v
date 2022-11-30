@@ -255,7 +255,7 @@ fn C.js_toboolean(J &C.js_State, idx int) int
 // double js_tonumber(js_State *J, int idx);
 fn C.js_tonumber(J &C.js_State, idx int) f64
 // const char *js_tostring(js_State *J, int idx);
-fn C.js_tostring(J &C.js_State, idx int) &i8
+fn C.js_tostring(J &C.js_State, idx int) &char
 // void *js_touserdata(js_State *J, int idx, const char *tag);
 fn C.js_touserdata(J &C.js_State, idx int, tag &i8) voidptr
 
