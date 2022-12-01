@@ -5,7 +5,7 @@ fn test_invalid_code_push() {
 	mut state := new_state(false)
 
 	// Simple function
-	func := "var b = "
+	func := 'var b = '
 
 	// Add to state
 	state.push_code(func) or {

@@ -41,12 +41,12 @@ pub fn new_state(strict_mode bool) &VMuJS {
 
 	// Strict mode flags
 	mujs_flags := match strict_mode {
-		true  { mujs_js_strict }
+		true { mujs_js_strict }
 		false { 0 }
 	}
 
 	// Create the state
-	vm.mujs_state = C.js_newstate(voidptr(0), 0, mujs_flags)
+	vm.mujs_state = C.js_newstate(unsafe { nil }, 0, mujs_flags)
 
 	return vm
 }
@@ -103,7 +103,7 @@ pub fn (vm &VMuJS) get_global_float(name string) !f64 {
 
 // Get a string global variable from the state
 pub fn (vm &VMuJS) get_global_string(name string) !string {
-	mut str := ""
+	mut str := ''
 	C.js_getglobal(vm.mujs_state, name.str)
 	raw_value := C.js_tostring(vm.mujs_state, -1)
 
@@ -119,7 +119,7 @@ pub fn (vm &VMuJS) get_global_string(name string) !string {
 }
 
 // Get a bool global variable from the state
-pub fn (vm &VMuJS) get_global_bool(name string)!bool {
+pub fn (vm &VMuJS) get_global_bool(name string) !bool {
 	C.js_getglobal(vm.mujs_state, name.str)
 	number := C.js_toboolean(vm.mujs_state, -1)
 	if C.js_isundefined(vm.mujs_state, -1) == 1 {
