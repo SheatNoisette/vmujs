@@ -3,6 +3,8 @@
 #include "jsbuiltin.h"
 
 #include <time.h>
+// VMuJS: Add math.h
+#include <math.h>
 
 #if defined(__unix__) || defined(__APPLE__)
 #include <sys/time.h>

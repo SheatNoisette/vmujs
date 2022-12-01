@@ -10,6 +10,8 @@ typedef unsigned __int64 uint64_t;
 #endif
 
 #include <time.h>
+// VMuJS: Add math.h
+#include <math.h>
 
 static double jsM_round(double x)
 {
