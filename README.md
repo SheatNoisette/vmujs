@@ -7,6 +7,8 @@ designed to be small and simple, and to be easily embedded in other applications
 It is not a full-featured Javascript implementation, but it is a complete
 ECMAScript 5.1 implementation.
 
+Is is recommended to use GCC or Clang to compile VMuJS.
+
 **THIS IS A WORK IN PROGRESS! IF YOU HAVE TIME TO SPARE, PLEASE CONTRIBUTE!**
 
 ## Status

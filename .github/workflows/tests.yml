@@ -20,4 +20,4 @@ jobs:
         git clone --depth 1 https://github.com/vlang/v.git ~/v
         (cd ~/v;make -j 4;sudo ./v symlink)
     - name: Run tests
-      run: v -stats test .
+      run: v -stats -cc gcc test .
