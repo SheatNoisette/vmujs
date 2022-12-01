@@ -1,5 +1,7 @@
 # V MuJS
 
+![tests](https://github.com/SheatNoisette/vmujs/actions/workflows/tests.yml/badge.svg)
+
 A hand written V bindings for [MuJS](https://mujs.com/).
 
 MuJS is a small, embeddable Javascript interpreter written in ANSI C. It is
