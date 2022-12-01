@@ -2,6 +2,8 @@ module vmujs
 
 // Import the MuJS module for compiling
 #include "@VROOT/mujs/mujs.h"
+// Fix TCC compiler error for missing math functions
+#include <math.h>
 
 #flag -I @VROOT/mujs/regexp.h
 #flag -I @VROOT/mujs/mujs.h
