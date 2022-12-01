@@ -11,6 +11,8 @@ typedef unsigned __int64 uint64_t;
 
 #include <errno.h>
 #include <assert.h>
+// VMuJS: Add math.h
+#include <math.h>
 
 #ifndef TRUE
 #define TRUE 1
