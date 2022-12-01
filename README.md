@@ -23,6 +23,15 @@ Here is a list of what is currently done:
 - [ ] Examples
 - [ ] Tests
 
+## Using Docker
+
+You can use the provided Dockerfile to build VMuJS.
+
+```bash
+$ docker build -t vmujs .
+$ docker run -it --volume="$(pwd)":/work/ --workdir=/work/ --rm vmujs
+```
+
 ## License
 This binding is licensed under the MIT license. See the LICENSE file for
 more details.
