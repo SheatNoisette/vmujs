@@ -15,15 +15,24 @@ Is is recommended to use GCC or Clang to compile VMuJS.
 
 ## Status
 
-Not the whole API is implemented yet, but the most important parts are.
+Please, note that this is a work in progress. The API is not stable and may change at any time.
 
 Here is a list of what is currently done:
 - [x] Raw .c.v bindings
-- [ ] Clean up
 - [ ] V friendly API
-- [ ] General documentation
 - [ ] Examples
-- [ ] Tests
+- [ ] General documentation
+- [ ] Clean up
+
+V friendly API feature support:
+- [x] Basic types
+- [X] Global variables (int, float, string, bool)
+- [X] Call JS functions from V
+- [ ] Call V functions from JS
+- [ ] Custom error handlers
+- [ ] JS Objects
+
+If you need a feature that is not listed, you can call the raw MuJS API from V using `C` types.
 
 ## Using Docker
 
@@ -39,4 +48,4 @@ This binding is licensed under the MIT license. See the LICENSE file for
 more details.
 
 MuJS is licensed under the ISC license. So, the folder `mujs` is licensed under
-the ISC license. Please, see the `mujs/COPYING` file for more details.
+the ISC license. See the `mujs/COPYING` file for more details.
