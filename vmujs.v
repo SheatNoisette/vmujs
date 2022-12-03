@@ -70,14 +70,14 @@ pub fn (vm &VMuJS) push_code(code string) ! {
 }
 
 // Load a file into the state
-fn (vm &VMuJS) load_file(file string) {
+pub fn (vm &VMuJS) load_file(file string) {
 	unsafe {
 		C.js_dofile(vm.mujs_state, file.str)
 	}
 }
 
 // Garbage collect the state
-fn (vm &VMuJS) gc() {
+pub fn (vm &VMuJS) gc() {
 	unsafe {
 		C.js_gc(vm.mujs_state, 0)
 	}
@@ -130,6 +130,107 @@ pub fn (vm &VMuJS) get_global_bool(name string) !bool {
 	number := C.js_toboolean(vm.mujs_state, -1)
 	if C.js_isundefined(vm.mujs_state, -1) == 1 {
 		return error('Error while getting global bool')
+	}
+	C.js_pop(vm.mujs_state, 1)
+	return match number {
+		0 { false }
+		else { true }
+	}
+}
+
+// Push elements to VMuJS stack
+
+// Push a int to the VM stack
+pub fn (vm &VMuJS) push_int(number int) {
+	C.js_pushnumber(vm.mujs_state, number)
+}
+
+// Push a float to the VM stack
+pub fn (vm &VMuJS) push_float(number f64) {
+	C.js_pushnumber(vm.mujs_state, number)
+}
+
+// Push a string to the VM stack
+pub fn (vm &VMuJS) push_string(str string) {
+	C.js_pushstring(vm.mujs_state, str.str)
+}
+
+// Push a bool to the VM stack
+pub fn (vm &VMuJS) push_bool(b bool) {
+	C.js_pushboolean(vm.mujs_state, match b {
+		true { 1 }
+		false { 0 }
+	})
+}
+
+// Push a null to the VM stack
+pub fn (vm &VMuJS) push_null() {
+	C.js_pushnull(vm.mujs_state)
+}
+
+// Push a undefined to the VM stack
+pub fn (vm &VMuJS) push_undefined() {
+	C.js_pushundefined(vm.mujs_state)
+}
+
+// Push element from VMuJS stack using generic type
+pub fn (vm &VMuJS) push_generic<T>(value T) {
+	// Sadly there's a bug in V that doesn't allow to use generics in match
+	// This is a workaround
+	match typeof(value).name {
+		'int' { vm.push_int(value) }
+		'f64' { vm.push_float(value) }
+		'f32' { vm.push_float(value) }
+		'string' { vm.push_string(value.str()) }
+		'bool' { vm.push_bool(value) }
+		else { vm.push_undefined() }
+	}
+}
+
+// Request to pop a element from the VM stack
+pub fn (vm &VMuJS) pop(times int) {
+	C.js_pop(vm.mujs_state, times)
+}
+
+// Pop a int from the VM stack
+pub fn (vm &VMuJS) pop_int() !int {
+	number := C.js_tointeger(vm.mujs_state, -1)
+	if C.js_isundefined(vm.mujs_state, -1) == 1 {
+		return error('Error while popping int')
+	}
+	C.js_pop(vm.mujs_state, 1)
+	return number
+}
+
+// Pop a float from the VM stack
+pub fn (vm &VMuJS) pop_float() !f64 {
+	number := C.js_tonumber(vm.mujs_state, -1)
+	if C.js_isundefined(vm.mujs_state, -1) == 1 {
+		return error('Error while popping float')
+	}
+	C.js_pop(vm.mujs_state, 1)
+	return number
+}
+
+// Pop a string from the VM stack
+pub fn (vm &VMuJS) pop_string() !string {
+	mut str := ''
+	raw_value := C.js_tostring(vm.mujs_state, -1)
+	if C.js_isundefined(vm.mujs_state, -1) == 1 {
+		return error('Error while popping string')
+	}
+	unsafe {
+		str = cstring_to_vstring(raw_value)
+	}
+	C.js_pop(vm.mujs_state, 1)
+	return str
+}
+
+// Pop a bool from the VM stack
+pub fn (vm &VMuJS) pop_bool() !bool {
+	number := C.js_toboolean(vm.mujs_state, -1)
+	if C.js_isundefined(vm.mujs_state, -1) == 1 {
+		return error('Error while popping bool')
 	}
 	C.js_pop(vm.mujs_state, 1)
 	return match number {
