@@ -45,8 +45,6 @@ pub struct VMuJSValueFn {
 
 // Call a function from JS
 pub fn (vm &VMuJS) call_function(name string, values ...VMuJSValueFn) ! {
-	mut args_number := 0
-
 	// Find the function
 	C.js_getglobal(vm.mujs_state, name.str)
 
@@ -69,9 +67,8 @@ pub fn (vm &VMuJS) call_function(name string, values ...VMuJSValueFn) ! {
 				vm.push_null()
 			}
 		}
-		args_number++
 	}
 
 	// Call the function
-	C.js_call(vm.mujs_state, args_number)
+	C.js_call(vm.mujs_state, values.len)
 }
