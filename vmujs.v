@@ -32,17 +32,23 @@ mut:
 	mujs_state &C.js_State
 }
 
+// Strict mode enum - New State
+enum VMuJSStrictMode {
+	strict
+	non_strict
+}
+
 // Create a new state
 // strict_mode: if true, the state will be in JS strict mode
-pub fn new_state(strict_mode bool) &VMuJS {
+pub fn new_state(strict_mode VMuJSStrictMode) &VMuJS {
 	mut vm := &VMuJS{
 		mujs_state: 0
 	}
 
 	// Strict mode flags
 	mujs_flags := match strict_mode {
-		true { mujs_js_strict }
-		false { 0 }
+		.strict { mujs_js_strict }
+		.non_strict { 0 }
 	}
 
 	// Create the state

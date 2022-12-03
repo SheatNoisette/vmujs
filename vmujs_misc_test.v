@@ -2,7 +2,7 @@ module vmujs
 
 fn test_invalid_code_push() {
 	// Make a new state
-	mut state := new_state(false)
+	mut state := new_state(.strict)
 
 	// Simple function
 	func := 'var b = '
