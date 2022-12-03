@@ -174,7 +174,7 @@ pub fn (vm &VMuJS) push_undefined() {
 }
 
 // Push element from VMuJS stack using generic type
-pub fn (vm &VMuJS) push_generic<T>(value T) {
+pub fn (vm &VMuJS) push_generic[T](value T) {
 	// Sadly there's a bug in V that doesn't allow to use generics in match
 	// This is a workaround
 	match typeof(value).name {
