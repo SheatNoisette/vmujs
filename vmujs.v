@@ -86,56 +86,30 @@ pub fn (vm &VMuJS) gc() {
 // Get a int global variable from the state
 pub fn (vm &VMuJS) get_global_int(name string) !int {
 	C.js_getglobal(vm.mujs_state, name.str)
-	number := C.js_tointeger(vm.mujs_state, -1)
-
-	if C.js_isundefined(vm.mujs_state, -1) == 1 {
-		return error('Error while getting global int')
-	}
-
-	C.js_pop(vm.mujs_state, 1)
+	number := vm.pop_int() or { return error('Error while getting global int') }
 	return number
 }
 
 // Get a float global variable from the state
 pub fn (vm &VMuJS) get_global_float(name string) !f64 {
 	C.js_getglobal(vm.mujs_state, name.str)
-	number := C.js_tonumber(vm.mujs_state, -1)
-	if C.js_isundefined(vm.mujs_state, -1) == 1 {
-		return error('Error while getting global float')
-	}
-	C.js_pop(vm.mujs_state, 1)
+	number := vm.pop_float() or { return error('Error while getting global float') }
 	return number
 }
 
 // Get a string global variable from the state
 pub fn (vm &VMuJS) get_global_string(name string) !string {
-	mut str := ''
 	C.js_getglobal(vm.mujs_state, name.str)
-	raw_value := C.js_tostring(vm.mujs_state, -1)
-
-	if C.js_isundefined(vm.mujs_state, -1) == 1 {
-		return error('Error while getting global string')
-	}
-
-	unsafe {
-		str = cstring_to_vstring(raw_value)
-	}
-	C.js_pop(vm.mujs_state, 1)
+	str := vm.pop_string() or { return error('Error while getting global string') }
 	return str
 }
 
 // Get a bool global variable from the state
 pub fn (vm &VMuJS) get_global_bool(name string) !bool {
 	C.js_getglobal(vm.mujs_state, name.str)
-	number := C.js_toboolean(vm.mujs_state, -1)
-	if C.js_isundefined(vm.mujs_state, -1) == 1 {
-		return error('Error while getting global bool')
-	}
-	C.js_pop(vm.mujs_state, 1)
-	return match number {
-		0 { false }
-		else { true }
-	}
+	// Pop from the stack
+	value := vm.pop_bool() or { return error('Error while getting global bool') }
+	return value
 }
 
 // Push elements to VMuJS stack
@@ -188,6 +162,7 @@ pub fn (vm &VMuJS) push_generic[T](value T) {
 }
 
 // Request to pop a element from the VM stack
+[inline]
 pub fn (vm &VMuJS) pop(times int) {
 	C.js_pop(vm.mujs_state, times)
 }
@@ -196,9 +171,11 @@ pub fn (vm &VMuJS) pop(times int) {
 pub fn (vm &VMuJS) pop_int() !int {
 	number := C.js_tointeger(vm.mujs_state, -1)
 	if C.js_isundefined(vm.mujs_state, -1) == 1 {
-		return error('Error while popping int')
+		return error('Error while popping int (Is not a int)')
+	} else if C.js_isnumber(vm.mujs_state, -1) == 0 {
+		return error('Error while popping int (Not a number)')
 	}
-	C.js_pop(vm.mujs_state, 1)
+	vm.pop(1)
 	return number
 }
 
@@ -206,9 +183,11 @@ pub fn (vm &VMuJS) pop_int() !int {
 pub fn (vm &VMuJS) pop_float() !f64 {
 	number := C.js_tonumber(vm.mujs_state, -1)
 	if C.js_isundefined(vm.mujs_state, -1) == 1 {
-		return error('Error while popping float')
+		return error('Error while popping float (Is not a float)')
+	} else if C.js_isnumber(vm.mujs_state, -1) == 0 {
+		return error('Error while popping float (Not a number)')
 	}
-	C.js_pop(vm.mujs_state, 1)
+	vm.pop(1)
 	return number
 }
 
@@ -217,12 +196,14 @@ pub fn (vm &VMuJS) pop_string() !string {
 	mut str := ''
 	raw_value := C.js_tostring(vm.mujs_state, -1)
 	if C.js_isundefined(vm.mujs_state, -1) == 1 {
-		return error('Error while popping string')
+		return error('Error while popping string (Does not exists)')
+	} else if C.js_isstring(vm.mujs_state, -1) == 0 {
+		return error('Error while popping string (Not a string)')
 	}
 	unsafe {
 		str = cstring_to_vstring(raw_value)
 	}
-	C.js_pop(vm.mujs_state, 1)
+	vm.pop(1)
 	return str
 }
 
@@ -231,8 +212,10 @@ pub fn (vm &VMuJS) pop_bool() !bool {
 	number := C.js_toboolean(vm.mujs_state, -1)
 	if C.js_isundefined(vm.mujs_state, -1) == 1 {
 		return error('Error while popping bool')
+	} else if C.js_isboolean(vm.mujs_state, -1) == 0 {
+		return error('Error while popping bool (Not a bool)')
 	}
-	C.js_pop(vm.mujs_state, 1)
+	vm.pop(1)
 	return match number {
 		0 { false }
 		else { true }
