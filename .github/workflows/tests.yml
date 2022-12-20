@@ -19,7 +19,7 @@ jobs:
         sudo apt install -y git gcc clang libgc-dev
         git clone --depth 1 https://github.com/vlang/v.git ~/v
         (cd ~/v;make -j 4;sudo ./v symlink)
-        cho "---"
+        echo "---"
         which v;pwd;v doctor
         echo "---"
         ln -s $(PWD) /home/$(whoami)/.vmodules/vmujs
