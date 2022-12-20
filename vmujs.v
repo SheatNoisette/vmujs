@@ -27,13 +27,13 @@ SOFTWARE.
 // V Friendly Wrapper for MuJS
 
 // MuJS state container
-struct VMuJS {
+pub struct VMuJS {
 mut:
 	mujs_state &C.js_State
 }
 
 // Strict mode enum - New State
-enum VMuJSStrictMode {
+pub enum VMuJSStrictMode {
 	strict
 	non_strict
 }
