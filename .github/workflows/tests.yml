@@ -23,15 +23,15 @@ jobs:
 
     - name: Run TCC Tests
       run: |
-        ln -s $(PWD) /Users/$(whoami)/.vmodules/vmujs
+        ln -s $(PWD) /home/$(whoami)/.vmodules/vmujs
         cd vmujstests;v -stats test .
 
     - name: Run GCC Tests
       run: |
-        ln -s $(PWD) /Users/$(whoami)/.vmodules/vmujs
+        ln -s $(PWD) /home/$(whoami)/.vmodules/vmujs
         cd vmujstests;v -stats -cc gcc test .
 
     - name: Run Clang Tests
       run: |
-        ln -s $(PWD) /Users/$(whoami)/.vmodules/vmujs
+        ln -s $(PWD) /home/$(whoami)/.vmodules/vmujs
         cd vmujstests;v -stats -cc clang test .
