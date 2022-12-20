@@ -43,6 +43,20 @@ $ docker build -t vmujs .
 $ docker run -it --volume="$(pwd)":/work/ --workdir=/work/ --rm vmujs
 ```
 
+## Running tests
+
+As there's many tests, they have been moved into a separate directory with their
+own module. This enables a proper API testing.
+
+```bash
+# You may need to do a symlink to the mujs folder
+# macOS
+# ln -s $(PWD) /Users/$(whoami)/.vmodules/vmujs
+# Linux
+# ln -s $(PWD) /home/$(whoami)/.vmodules/vmujs
+$ v test .
+```
+
 ## License
 This binding is licensed under the MIT license. See the LICENSE file for
 more details.

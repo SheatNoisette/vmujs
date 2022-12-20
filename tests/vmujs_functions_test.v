@@ -1,7 +1,9 @@
-module vmujs
+module vmujstests
+
+import vmujs
 
 fn test_simple_function_call() {
-	mut state := new_state(.strict)
+	mut state := vmujs.new_state(.strict)
 
 	state.push_code('function test() { return 1; }') or {
 		state.destroy()
@@ -27,7 +29,7 @@ fn test_simple_function_call() {
 }
 
 fn test_args_function_call() {
-	mut state := new_state(.strict)
+	mut state := vmujs.new_state(.strict)
 
 	state.push_code('function test(a, b) { return a + b; }') or {
 		state.destroy()
@@ -35,10 +37,10 @@ fn test_args_function_call() {
 		return
 	}
 
-	state.call_function('test', VMuJSValueFn{
+	state.call_function('test', vmujs.VMuJSValueFn{
 		value_type: .integer
 		integer: 1
-	}, VMuJSValueFn{
+	}, vmujs.VMuJSValueFn{
 		value_type: .integer
 		integer: 2
 	}) or {

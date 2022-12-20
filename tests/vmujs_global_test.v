@@ -1,8 +1,10 @@
-module vmujs
+module vmujstests
+
+import vmujs
 
 fn test_get_int_global() {
 	// Make a new state
-	mut state := new_state(.strict)
+	mut state := vmujs.new_state(.strict)
 
 	// Simple function
 	func := 'var i = 42;'
@@ -20,7 +22,7 @@ fn test_get_int_global() {
 
 fn test_get_float_global() {
 	// Make a new state
-	mut state := new_state(.strict)
+	mut state := vmujs.new_state(.strict)
 
 	// Simple function
 	func := 'var f = 42.0;'
@@ -38,7 +40,7 @@ fn test_get_float_global() {
 
 fn test_get_string_global() {
 	// Make a new state
-	mut state := new_state(.strict)
+	mut state := vmujs.new_state(.strict)
 
 	// Simple function
 	func := "var s = 'hello';"
@@ -56,7 +58,7 @@ fn test_get_string_global() {
 
 fn test_get_bool_global() {
 	// Make a new state
-	mut state := new_state(.strict)
+	mut state := vmujs.new_state(.strict)
 
 	// Simple function
 	func := 'var b = true;'
@@ -74,7 +76,7 @@ fn test_get_bool_global() {
 
 fn test_two_globals() {
 	// Make a new state
-	mut state := new_state(.strict)
+	mut state := vmujs.new_state(.strict)
 
 	// Simple function
 	glob1 := 'var i = 42;'
@@ -96,7 +98,7 @@ fn test_two_globals() {
 
 fn test_invalid_global_int() {
 	// Make a new state
-	mut state := new_state(.strict)
+	mut state := vmujs.new_state(.strict)
 
 	// Simple function
 	content := 'var i = 42;'

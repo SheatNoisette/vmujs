@@ -1,9 +1,11 @@
-module vmujs
+module vmujstests
+
+import vmujs
 
 // Push generic
 fn test_generic_push_int() {
 	// Make a new state
-	mut state := new_state(.strict)
+	mut state := vmujs.new_state(.strict)
 
 	// Table of values to push
 	elements := [1, 5, 7, 9]
@@ -29,7 +31,7 @@ fn test_generic_push_int() {
 // Push a string
 fn test_string_push() {
 	// Make a new state
-	mut state := new_state(.strict)
+	mut state := vmujs.new_state(.strict)
 
 	// Push a string
 	state.push_string('Hello, World!')
@@ -49,7 +51,7 @@ fn test_string_push() {
 // This checks that the stack is properly cleaned up
 fn test_multiple_push() {
 	// Make a new state
-	mut state := new_state(.strict)
+	mut state := vmujs.new_state(.strict)
 
 	// Push a string
 	state.push_string('Hello, World!')
@@ -88,7 +90,7 @@ fn test_multiple_push() {
 // Push a bool and try it as a number
 fn test_push_bool_and_pop_as_int() {
 	// Make a new state
-	mut state := new_state(.strict)
+	mut state := vmujs.new_state(.strict)
 
 	// Push a bool
 	state.push_bool(true)
@@ -110,7 +112,7 @@ fn test_push_bool_and_pop_as_int() {
 // Push a number and try it as a bool
 fn test_push_int_and_pop_as_bool() {
 	// Make a new state
-	mut state := new_state(.strict)
+	mut state := vmujs.new_state(.strict)
 
 	// Push a number
 	state.push_int(42)
@@ -132,7 +134,7 @@ fn test_push_int_and_pop_as_bool() {
 // Push a number and try it as a string
 fn test_push_int_and_pop_as_string() {
 	// Make a new state
-	mut state := new_state(.strict)
+	mut state := vmujs.new_state(.strict)
 
 	// Push a number
 	state.push_int(42)
@@ -153,7 +155,7 @@ fn test_push_int_and_pop_as_string() {
 // Push a bool and try it as a float (it is valid to pop a int as a float)
 fn test_push_int_and_pop_as_float() {
 	// Make a new state
-	mut state := new_state(.strict)
+	mut state := vmujs.new_state(.strict)
 
 	// Push a int
 	state.push_bool(true)
