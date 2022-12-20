@@ -6,6 +6,7 @@ v-mujs
 *.so
 *.dylib
 *.dll
+doc/
 
 # Ignore binary output folders
 bin/

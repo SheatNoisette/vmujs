@@ -62,6 +62,16 @@ own module. This enables a proper API testing.
 $ v test .
 ```
 
+## Documentation
+
+VMuJS is based on MuJS. You can find the documentation
+[here](https://mujs.com/docs.html).
+
+The VMuJS documentation can be generated using `vdoc`:
+```bash
+$ v doc -o doc/vmujs.md .
+```
+
 ## License
 This binding is licensed under the MIT license. See the LICENSE file for
 more details.
