@@ -24,7 +24,45 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+pub struct VMuJSGlobal {
+pub:
+	name string
+	value string
+}
+
+// Get a global variable from the state as a string
+// This enable an idiomatic way to get a global variable, you can then use the
+// type conversion function to get the type you want
+// See get_global_* for direct type conversion from MuJS
+pub fn (vm &VMuJS) get_global(name string) VMuJSGlobal {
+	C.js_getglobal(vm.mujs_state, name.str)
+	value := vm.pop_string() or { "" }
+	return VMuJSGlobal{
+		name: name
+		value: value
+	}
+}
+
+// Get a int from a global variable from the state
+[inline]
+pub fn (val &VMuJSGlobal) int() int {
+	return val.value.int()
+}
+
+// Get a float from a global variable from the state
+[inline]
+pub fn (val &VMuJSGlobal) f64() f64 {
+	return val.value.f64()
+}
+
+// Get a string from a global variable from the state
+[inline]
+pub fn (val &VMuJSGlobal) str() string {
+	return val.value
+}
+
 // Get a int global variable from the state
+// Note: This take directly the value from the VM's Stack
 pub fn (vm &VMuJS) get_global_int(name string) !int {
 	C.js_getglobal(vm.mujs_state, name.str)
 	number := vm.pop_int() or { return error('Error while getting global int') }
@@ -32,23 +70,27 @@ pub fn (vm &VMuJS) get_global_int(name string) !int {
 }
 
 // Get a float global variable from the state
+// Note: This take directly the value from the VM's Stack
 pub fn (vm &VMuJS) get_global_float(name string) !f64 {
 	C.js_getglobal(vm.mujs_state, name.str)
 	number := vm.pop_float() or { return error('Error while getting global float') }
 	return number
 }
 
-// Get a string global variable from the state
-pub fn (vm &VMuJS) get_global_string(name string) !string {
-	C.js_getglobal(vm.mujs_state, name.str)
-	str := vm.pop_string() or { return error('Error while getting global string') }
-	return str
-}
-
 // Get a bool global variable from the state
+// Note: This take directly the value from the VM's Stack
 pub fn (vm &VMuJS) get_global_bool(name string) !bool {
 	C.js_getglobal(vm.mujs_state, name.str)
 	// Pop from the stack
 	value := vm.pop_bool() or { return error('Error while getting global bool') }
+	return value
+}
+
+// Get a string global variable from the state
+// Note: This take directly the value from the VM's Stack
+pub fn (vm &VMuJS) get_global_string(name string) !string {
+	C.js_getglobal(vm.mujs_state, name.str)
+	// Pop from the stack
+	value := vm.pop_string() or { return error('Error while getting global string') }
 	return value
 }

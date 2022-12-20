@@ -128,3 +128,52 @@ fn test_invalid_global_int() {
 	state.destroy()
 	assert false
 }
+
+// Idiomatic way
+fn test_get_global_idiomatic() {
+	// Make a new state
+	mut state := vmujs.new_state(.strict)
+
+	// Simple function
+	content := 'var i = 42;
+				var f = 42.0;
+				var s = "hello";
+				var b = true;'
+
+	// Add to state
+	state.push_code(content)!
+
+	// Get the globals
+
+	// Int
+	mut int_value := state.get_global_int('i') or { 0 }
+	assert int_value == 42
+
+	// Float
+	mut float_value := state.get_global_float('f') or { 0.0 }
+	assert float_value == 42.0
+
+	// String
+	mut string_value := state.get_global_string('s') or { '' }
+	assert string_value == 'hello'
+
+	// Bool
+	mut bool_value := state.get_global_bool('b') or { false }
+	assert bool_value == true
+
+	// Get the global other way
+
+	// Int
+	int_value = state.get_global('i').int()
+	assert int_value == 42
+
+	// Float
+	float_value = state.get_global('f').f64()
+	assert float_value == 42.0
+
+	// String
+	string_value = state.get_global('s').str()
+	assert string_value == 'hello'
+
+	// Bool is not supported yet
+}
