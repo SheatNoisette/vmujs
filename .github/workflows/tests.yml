@@ -19,12 +19,16 @@ jobs:
         sudo apt install -y git gcc clang libgc-dev
         git clone --depth 1 https://github.com/vlang/v.git ~/v
         (cd ~/v;make -j 4;sudo ./v symlink)
+        which v;pwd
 
     - name: Run TCC Tests
-      run: v -stats test .
+      run: |
+        v -stats test .
 
     - name: Run GCC Tests
-      run: v -stats -cc gcc test .
+      run: |
+        v -stats -cc gcc test .
 
     - name: Run Clang Tests
-      run: v -stats -cc clang test .
+      run: |
+        v -stats -cc clang test .
