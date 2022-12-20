@@ -20,11 +20,9 @@ fn test_simple_vfunction_call() {
 	mut state := vmujs.new_state(.strict)
 
 	state.register_function('simple', 0, simple_vfunction_call_callback)
-	state.set_function_data('simple', "test", "Hello")
+	state.set_function_data('simple', 'test', 'Hello')
 
-	state.push_code("simple()") or {
-		panic('failed to push code')
-	}
+	state.push_code('simple()') or { panic('failed to push code') }
 
 	assert state.get_function_data('simple')['test'] == 'Hello World!'
 }
@@ -38,9 +36,7 @@ fn simple_isqrt_callback(vm &C.js_State) {
 	mut state := vmujs.get_vmujs(vm)
 
 	// Get the 1st argument
-	arg := state.pop_int() or {
-		panic('(callback) failed to pop int')
-	}
+	arg := state.pop_int() or { panic('(callback) failed to pop int') }
 
 	// Push the result
 	state.push_int(int(math.sqrt(arg)))
@@ -51,13 +47,9 @@ fn test_simple_isqrt() {
 
 	state.register_function('isqrt', 1, simple_isqrt_callback)
 
-	state.push_code("var out = isqrt(9);") or {
-		panic('failed to push code')
-	}
+	state.push_code('var out = isqrt(9);') or { panic('failed to push code') }
 
-	number := state.get_global_int('out') or {
-		panic('failed to get global')
-	}
+	number := state.get_global_int('out') or { panic('failed to get global') }
 
 	assert number == 3
 }

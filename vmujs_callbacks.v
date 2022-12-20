@@ -44,7 +44,7 @@ pub struct VMuJSValueFn {
 }
 
 // Function type for the callback
-type VMuJSValueFnCallback = fn(&C.js_State)
+type VMuJSValueFnCallback = fn (&C.js_State)
 
 // Call a function from JS
 pub fn (vm &VMuJS) call_function(name string, values ...VMuJSValueFn) ! {

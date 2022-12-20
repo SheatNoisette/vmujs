@@ -13,6 +13,11 @@ Is is recommended to use GCC or Clang to compile VMuJS.
 
 **THIS IS A WORK IN PROGRESS! IF YOU HAVE TIME TO SPARE, PLEASE CONTRIBUTE!**
 
+Important note:
+---
+
+**This module will remain in 0.0.0 unless VMuJS API's is finalized**
+
 ## Status
 
 Please, note that this is a work in progress. The API is not stable and may change at any time.
