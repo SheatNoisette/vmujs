@@ -72,3 +72,22 @@ pub fn (vm &VMuJS) push_generic[T](value T) {
 		else { vm.push_undefined() }
 	}
 }
+
+// Push a array to the VM stack
+pub fn (vm &VMuJS) push_array(arr []VMuJSValue) {
+	C.js_newarray(vm.mujs_state)
+	mut index := 0
+	for value in arr {
+		match value.kind {
+			.integer { vm.push_int(value.integer) }
+			.float { vm.push_float(value.float) }
+			.str { vm.push_string(value.str) }
+			.boolean { vm.push_bool(value.boolean) }
+			.null { vm.push_null() }
+			else { vm.push_undefined() }
+		}
+
+		C.js_setindex(vm.mujs_state, -2, index)
+		index++
+	}
+}

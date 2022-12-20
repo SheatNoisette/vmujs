@@ -84,3 +84,76 @@ pub fn (vm &VMuJS) pop_bool() !bool {
 		else { true }
 	}
 }
+
+// Get the type of the element on the top of the stack
+pub fn (vm &VMuJS) stack_get_type() VMuJSType {
+	if C.js_isnull(vm.mujs_state, -1) == 1 {
+		return .null
+	} else if C.js_isboolean(vm.mujs_state, -1) == 1 {
+		return .boolean
+	} else if C.js_isnumber(vm.mujs_state, -1) == 1 {
+		return .float
+	} else if C.js_isstring(vm.mujs_state, -1) == 1 {
+		return .str
+	}
+	return .unknown
+}
+
+// Pop a value into a VMuJSValue
+pub fn (vm &VMuJS) pop_value() !VMuJSValue {
+	value_type := vm.stack_get_type()
+
+	// This could be done a lot better
+	match value_type {
+		.float {
+			return VMuJSValue{
+				kind: value_type
+				float: vm.pop_float()!
+			}
+		}
+		.integer {
+			return VMuJSValue{
+				kind: value_type
+				integer: vm.pop_int()!
+			}
+		}
+		.str {
+			return VMuJSValue{
+				kind: value_type
+				str: vm.pop_string()!
+			}
+		}
+		.boolean {
+			return VMuJSValue{
+				kind: value_type
+				boolean: vm.pop_bool()!
+			}
+		}
+		.null {
+			return VMuJSValue{
+				kind: value_type
+			}
+		}
+		else {
+			return error('Error while popping value (Unsupported type)')
+		}
+	}
+}
+
+// Pop a array from the VM stack
+pub fn (vm &VMuJS) pop_array() ![]VMuJSValue {
+	mut arr := []VMuJSValue{}
+	if C.js_isobject(vm.mujs_state, -1) == 0 {
+		return error('Error while popping array (Not a array)')
+	}
+	arr_len := C.js_getlength(vm.mujs_state, -1)
+	for i := 0; i < arr_len; i++ {
+		C.js_getindex(vm.mujs_state, -1, i)
+		println(C.js_tonumber(vm.mujs_state, -1))
+		arr << vm.pop_value() or {
+			return error('Error while popping array (Error while popping value)')
+		}
+	}
+	vm.pop(1)
+	return arr
+}

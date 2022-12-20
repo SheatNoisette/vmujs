@@ -99,3 +99,8 @@ pub fn (vm &VMuJS) get_global_string(name string) !string {
 pub fn (vm &VMuJS) set_global_stack(name string) {
 	C.js_setglobal(vm.mujs_state, name.str)
 }
+
+// Push a global variable to the stack
+pub fn (vm &VMuJS) push_global(name string) {
+	C.js_getglobal(vm.mujs_state, name.str)
+}

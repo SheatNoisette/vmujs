@@ -46,17 +46,21 @@ pub enum VMuJSType {
 	float
 	str
 	boolean
+	array
 	null
+	unknown
 }
 
 // Base struct for arguments for the callback
 pub struct VMuJSValue {
+pub:
 	kind VMuJSType
 
 	integer int
 	float   f64
 	str     string
 	boolean bool
+	array   []VMuJSValue
 }
 
 // Create a new state

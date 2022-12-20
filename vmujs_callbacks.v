@@ -55,6 +55,7 @@ pub fn (vm &VMuJS) call_function(name string, values ...VMuJSValue) ! {
 			.boolean {
 				vm.push_bool(value.boolean)
 			}
+			else {}
 		}
 	}
 

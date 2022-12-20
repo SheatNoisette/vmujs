@@ -52,7 +52,9 @@ pub fn (vm &VMuJS) object_push_map(input map[string]VMuJSValue) {
 			.null {
 				vm.push_null()
 			}
-			else {}
+			else {
+				panic('Unsupported type')
+			}
 		}
 
 		// Push the value
