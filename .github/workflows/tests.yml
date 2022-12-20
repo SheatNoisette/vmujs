@@ -20,18 +20,20 @@ jobs:
         git clone --depth 1 https://github.com/vlang/v.git ~/v
         (cd ~/v;make -j 4;sudo ./v symlink)
         which v;pwd;v doctor
+        ln -s $(PWD) /home/$(whoami)/.vmodules/vmujs
+        ls /home/$(whoami)/.vmodules/
 
     - name: Run TCC Tests
       run: |
         ln -s $(PWD) /home/$(whoami)/.vmodules/vmujs
-        v test ~/.vmodules/vmujs/vmujstests
+        v test ~/.vmodules/vmujs/vmujstests/
 
     - name: Run GCC Tests
       run: |
         ln -s $(PWD) /home/$(whoami)/.vmodules/vmujs
-        v test ~/.vmodules/vmujs/vmujstests
+        v test ~/.vmodules/vmujs/vmujstests/
 
     - name: Run Clang Tests
       run: |
         ln -s $(PWD) /home/$(whoami)/.vmodules/vmujs
-        v test ~/.vmodules/vmujs/vmujstests
+        v test ~/.vmodules/vmujs/vmujstests/
