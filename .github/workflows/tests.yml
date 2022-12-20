@@ -22,7 +22,7 @@ jobs:
         echo "---"
         which v;pwd;v doctor
         echo "---"
-        ln -s $(PWD) /home/$(whoami)/.vmodules/vmujs
+        ln -s $(pwd) /home/$(whoami)/.vmodules/vmujs
         ls /home/$(whoami)/.vmodules/
 
     - name: Run TCC Tests
