@@ -28,7 +28,7 @@ V friendly API feature support:
 - [x] Basic types
 - [X] Global variables (int, float, string, bool)
 - [X] Call JS functions from V
-- [ ] Call V functions from JS
+- [X] Call V functions from JS
 - [ ] Custom error handlers
 - [ ] JS Objects
 

@@ -29,7 +29,9 @@ SOFTWARE.
 // MuJS state container
 pub struct VMuJS {
 mut:
-	mujs_state &C.js_State
+	mujs_state &C.js_State /* MuJS state */
+	fn_map map[string]VMuJSValueFnCallback /* Map of functions for JS -> V */
+	fn_data map[string]map[string]string /* Map of data for JS -> V */
 }
 
 // Strict mode enum - New State
@@ -54,7 +56,16 @@ pub fn new_state(strict_mode VMuJSStrictMode) &VMuJS {
 	// Create the state
 	vm.mujs_state = C.js_newstate(unsafe { nil }, 0, mujs_flags)
 
+	// Set the self address
+	// Yes, this is cursed
+	vm.mujs_state.vmujs_state = voidptr(vm)
+
 	return vm
+}
+
+// Get the VMuJS state from a MuJS state
+pub fn get_vmujs(mujs_state &C.js_State) &VMuJS {
+	return voidptr(mujs_state.vmujs_state)
 }
 
 // Destroy a state

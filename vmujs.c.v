@@ -2,6 +2,7 @@ module vmujs
 
 // Import the MuJS module for compiling
 #include "@VROOT/mujs/mujs.h"
+#include "@VROOT/mujs/jsi.h"
 // Fix TCC compiler error for missing math functions
 #include <math.h>
 #flag -lm
@@ -38,7 +39,10 @@ const (
 
 // JS State
 [typedef]
-struct C.js_State {}
+pub struct C.js_State {
+mut:
+	vmujs_state voidptr
+}
 
 // MuJS version
 fn C.JS_CHECKVERSION(int, int, int)

@@ -278,6 +278,9 @@ struct js_State
 	/* exception stack */
 	int trytop;
 	js_Jumpbuf trybuf[JS_TRYLIMIT];
+
+	/* VMuJS: State Struct */
+	void *vmujs_state;
 };
 
 #endif
