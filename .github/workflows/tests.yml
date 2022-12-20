@@ -19,21 +19,20 @@ jobs:
         sudo apt install -y git gcc clang libgc-dev
         git clone --depth 1 https://github.com/vlang/v.git ~/v
         (cd ~/v;make -j 4;sudo ./v symlink)
+        cho "---"
         which v;pwd;v doctor
+        echo "---"
         ln -s $(PWD) /home/$(whoami)/.vmodules/vmujs
         ls /home/$(whoami)/.vmodules/
 
     - name: Run TCC Tests
       run: |
-        ln -s $(PWD) /home/$(whoami)/.vmodules/vmujs
         v test ~/.vmodules/vmujs/vmujstests/
 
     - name: Run GCC Tests
       run: |
-        ln -s $(PWD) /home/$(whoami)/.vmodules/vmujs
         v test ~/.vmodules/vmujs/vmujstests/
 
     - name: Run Clang Tests
       run: |
-        ln -s $(PWD) /home/$(whoami)/.vmodules/vmujs
         v test ~/.vmodules/vmujs/vmujstests/
