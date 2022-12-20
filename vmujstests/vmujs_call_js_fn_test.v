@@ -37,11 +37,11 @@ fn test_args_function_call() {
 		return
 	}
 
-	state.call_function('test', vmujs.VMuJSValueFn{
-		value_type: .integer
+	state.call_function('test', vmujs.VMuJSValue{
+		kind: .integer
 		integer: 1
-	}, vmujs.VMuJSValueFn{
-		value_type: .integer
+	}, vmujs.VMuJSValue{
+		kind: .integer
 		integer: 2
 	}) or {
 		state.destroy()
@@ -79,8 +79,8 @@ fn test_function_call_isqrt() {
 		return
 	}
 
-	state.call_function('isqrt', vmujs.VMuJSValueFn{
-		value_type: .integer
+	state.call_function('isqrt', vmujs.VMuJSValue{
+		kind: .integer
 		integer: 9
 	}) or {
 		state.destroy()

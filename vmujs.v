@@ -40,6 +40,25 @@ pub enum VMuJSStrictMode {
 	non_strict
 }
 
+// Type of a JS Value
+pub enum VMuJSType {
+	integer
+	float
+	str
+	boolean
+	null
+}
+
+// Base struct for arguments for the callback
+pub struct VMuJSValue {
+	kind VMuJSType
+
+	integer int
+	float   f64
+	str     string
+	boolean bool
+}
+
 // Create a new state
 // strict_mode: if true, the state will be in JS strict mode
 pub fn new_state(strict_mode VMuJSStrictMode) &VMuJS {

@@ -30,3 +30,32 @@ SOFTWARE.
 pub fn (vm &VMuJS) new_object() {
 	C.js_newobject(vm.mujs_state)
 }
+
+// Push Map to vm Stack as JS Object
+pub fn (vm &VMuJS) object_push_map(input map[string]VMuJSValue) {
+	// Create a new Object
+	vm.new_object()
+
+	// Loop through the map
+	for key, value in input {
+		// Push the key depending on the type
+		match value.kind {
+			.str {
+				vm.push_string(value.str)
+			}
+			.integer {
+				vm.push_int(value.integer)
+			}
+			.boolean {
+				vm.push_bool(value.boolean)
+			}
+			.null {
+				vm.push_null()
+			}
+			else {}
+		}
+
+		// Push the value
+		C.js_setproperty(vm.mujs_state, -2, key.str)
+	}
+}

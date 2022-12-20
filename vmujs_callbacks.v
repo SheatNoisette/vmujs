@@ -26,28 +26,11 @@ SOFTWARE.
 
 // V and MuJS interop
 
-// Type of a JS Value
-pub enum VMuJSType {
-	integer
-	float
-	str
-	null
-}
-
-// Base struct for arguments for the callback
-pub struct VMuJSValueFn {
-	value_type VMuJSType
-
-	integer int
-	float   f64
-	str     string
-}
-
 // Function type for the callback
 type VMuJSValueFnCallback = fn (&C.js_State)
 
 // Call a function from JS
-pub fn (vm &VMuJS) call_function(name string, values ...VMuJSValueFn) ! {
+pub fn (vm &VMuJS) call_function(name string, values ...VMuJSValue) ! {
 	// Find the function
 	C.js_getglobal(vm.mujs_state, name.str)
 
@@ -56,7 +39,7 @@ pub fn (vm &VMuJS) call_function(name string, values ...VMuJSValueFn) ! {
 
 	// Push the arguments
 	for value in values {
-		match value.value_type {
+		match value.kind {
 			.integer {
 				vm.push_int(value.integer)
 			}
@@ -68,6 +51,9 @@ pub fn (vm &VMuJS) call_function(name string, values ...VMuJSValueFn) ! {
 			}
 			.null {
 				vm.push_null()
+			}
+			.boolean {
+				vm.push_bool(value.boolean)
 			}
 		}
 	}

@@ -26,7 +26,7 @@ SOFTWARE.
 
 pub struct VMuJSGlobal {
 pub:
-	name string
+	name  string
 	value string
 }
 
@@ -36,7 +36,7 @@ pub:
 // See get_global_* for direct type conversion from MuJS
 pub fn (vm &VMuJS) get_global(name string) VMuJSGlobal {
 	C.js_getglobal(vm.mujs_state, name.str)
-	value := vm.pop_string() or { "" }
+	value := vm.pop_string() or { '' }
 	return VMuJSGlobal{
 		name: name
 		value: value
@@ -93,4 +93,9 @@ pub fn (vm &VMuJS) get_global_string(name string) !string {
 	// Pop from the stack
 	value := vm.pop_string() or { return error('Error while getting global string') }
 	return value
+}
+
+// Set a new global from the stack
+pub fn (vm &VMuJS) set_global_stack(name string) {
+	C.js_setglobal(vm.mujs_state, name.str)
 }
