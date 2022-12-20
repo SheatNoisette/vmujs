@@ -59,3 +59,44 @@ fn test_args_function_call() {
 	// Check the return value
 	assert value == 3
 }
+
+fn test_function_call_isqrt() {
+	mut state := vmujs.new_state(.strict)
+
+	// Simple integer square root function
+	// Floating point is arch and platform dependent
+	state.push_code('function isqrt(n) {
+		var x = n;
+		var y = 1;
+		while (x > y) {
+			x = (x + y) / 2;
+			y = n / x;
+		}
+		return x;
+	}') or {
+		state.destroy()
+		assert false
+		return
+	}
+
+	state.call_function('isqrt', vmujs.VMuJSValueFn{
+		value_type: .integer
+		integer: 9
+	}) or {
+		state.destroy()
+		assert false
+		return
+	}
+
+	// Pop the return value
+	value := state.pop_int() or {
+		state.destroy()
+		assert false
+		return
+	}
+
+	// Check the return value
+	assert value == 3
+
+	state.destroy()
+}
