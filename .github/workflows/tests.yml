@@ -27,12 +27,16 @@ jobs:
 
     - name: Run TCC Tests
       run: |
-        v test ~/.vmodules/vmujs/vmujstests/
+        v -stats test ~/.vmodules/vmujs/vmujstests/
 
     - name: Run GCC Tests
       run: |
-        v test ~/.vmodules/vmujs/vmujstests/
+        v -stats test ~/.vmodules/vmujs/vmujstests/
 
     - name: Run Clang Tests
       run: |
-        v test ~/.vmodules/vmujs/vmujstests/
+        v -stats test ~/.vmodules/vmujs/vmujstests/
+
+    - name: Build examples
+      run: |
+        cd examples;./build_examples.sh
