@@ -149,7 +149,6 @@ pub fn (vm &VMuJS) pop_array() ![]VMuJSValue {
 	arr_len := C.js_getlength(vm.mujs_state, -1)
 	for i := 0; i < arr_len; i++ {
 		C.js_getindex(vm.mujs_state, -1, i)
-		println(C.js_tonumber(vm.mujs_state, -1))
 		arr << vm.pop_value() or {
 			return error('Error while popping array (Error while popping value)')
 		}
