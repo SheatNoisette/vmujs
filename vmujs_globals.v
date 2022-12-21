@@ -104,3 +104,11 @@ pub fn (vm &VMuJS) set_global_stack(name string) {
 pub fn (vm &VMuJS) push_global(name string) {
 	C.js_getglobal(vm.mujs_state, name.str)
 }
+
+// Get an array global variable from the stack
+pub fn (vm &VMuJS) get_global_array(name string) ![]VMuJSValue {
+	C.js_getglobal(vm.mujs_state, name.str)
+	// Pop from the stack
+	value := vm.pop_array() or { return error('Error while getting global array') }
+	return value
+}
