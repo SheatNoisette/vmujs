@@ -26,6 +26,9 @@ SOFTWARE.
 
 // V and MuJS interop
 
+// Rename the &C.js_State as VMuJSCallback
+type VMuJSCallback = &C.js_State
+
 // Function type for the callback
 type VMuJSValueFnCallback = fn (&C.js_State)
 

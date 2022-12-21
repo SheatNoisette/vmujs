@@ -3,7 +3,7 @@ module main
 import vmujs
 import os
 
-fn exit_callback(state &C.js_State) {
+fn exit_callback(state &vmujs.VMuJSCallback) {
 	// Get the state from the State pointer
 	mut vm := vmujs.get_vmujs(state)
 
@@ -14,7 +14,7 @@ fn exit_callback(state &C.js_State) {
 	exit(code)
 }
 
-fn print_callback(state &C.js_State) {
+fn print_callback(state &vmujs.VMuJSCallback) {
 	// Get the state from the State pointer
 	mut vm := vmujs.get_vmujs(state)
 

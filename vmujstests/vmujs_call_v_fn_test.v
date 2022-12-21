@@ -5,7 +5,7 @@ import math
 
 // test 1 {
 
-fn simple_vfunction_call_callback(vm &C.js_State) {
+fn simple_vfunction_call_callback(vm &vmujs.VMuJSCallback) {
 	// Get VMuJS state - From which it was called
 	mut state := vmujs.get_vmujs(vm)
 
@@ -31,7 +31,7 @@ fn test_simple_vfunction_call() {
 
 // test 2 {
 
-fn simple_isqrt_callback(vm &C.js_State) {
+fn simple_isqrt_callback(vm &vmujs.VMuJSCallback) {
 	// Get VMuJS state - From which it was called
 	mut state := vmujs.get_vmujs(vm)
 
@@ -57,7 +57,7 @@ fn test_simple_isqrt() {
 // }
 // test 3 {
 
-fn simple_add_array_together_callback(vm &C.js_State) {
+fn simple_add_array_together_callback(vm &vmujs.VMuJSCallback) {
 	// Get VMuJS state - From which it was called
 	mut state := vmujs.get_vmujs(vm)
 
@@ -89,7 +89,7 @@ fn test_simple_add_array_together() {
 // }
 // test 4 {
 
-fn simple_add_two_arrays_together_callback(vm &C.js_State) {
+fn simple_add_two_arrays_together_callback(vm &vmujs.VMuJSCallback) {
 	// Get VMuJS state - From which it was called
 	mut state := vmujs.get_vmujs(vm)
 
