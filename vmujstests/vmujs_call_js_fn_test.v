@@ -5,7 +5,7 @@ import vmujs
 fn test_simple_function_call() {
 	mut state := vmujs.new_state(.strict)
 
-	state.push_code('function test() { return 1; }') or {
+	state.eval('function test() { return 1; }') or {
 		state.destroy()
 		assert false
 		return
@@ -31,7 +31,7 @@ fn test_simple_function_call() {
 fn test_args_function_call() {
 	mut state := vmujs.new_state(.strict)
 
-	state.push_code('function test(a, b) { return a + b; }') or {
+	state.eval('function test(a, b) { return a + b; }') or {
 		state.destroy()
 		assert false
 		return
@@ -65,7 +65,7 @@ fn test_function_call_isqrt() {
 
 	// Simple integer square root function
 	// Floating point is arch and platform dependent
-	state.push_code('function isqrt(n) {
+	state.eval('function isqrt(n) {
 		var x = n;
 		var y = 1;
 		while (x > y) {

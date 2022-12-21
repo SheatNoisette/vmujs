@@ -97,7 +97,7 @@ pub fn (vm &VMuJS) destroy() {
 }
 
 // Push a line of code to the state
-pub fn (vm &VMuJS) push_code(code string) ! {
+pub fn (vm &VMuJS) eval(code string) ! {
 	if C.js_dostring(vm.mujs_state, code.str) == 1 {
 		return error('Error while pushing code to the state')
 	}

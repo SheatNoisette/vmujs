@@ -10,7 +10,7 @@ fn test_get_int_global() {
 	func := 'var i = 42;'
 
 	// Add to state
-	state.push_code(func)!
+	state.eval(func)!
 
 	value := state.get_global_int('i') or { 0 }
 
@@ -28,7 +28,7 @@ fn test_get_float_global() {
 	func := 'var f = 42.0;'
 
 	// Add to state
-	state.push_code(func)!
+	state.eval(func)!
 
 	value := state.get_global_float('f') or { 0.0 }
 
@@ -46,7 +46,7 @@ fn test_get_string_global() {
 	func := "var s = 'hello';"
 
 	// Add to state
-	state.push_code(func)!
+	state.eval(func)!
 
 	value := state.get_global_string('s') or { '' }
 
@@ -64,7 +64,7 @@ fn test_get_bool_global() {
 	func := 'var b = true;'
 
 	// Add to state
-	state.push_code(func)!
+	state.eval(func)!
 
 	value := state.get_global_bool('b') or { false }
 
@@ -83,8 +83,8 @@ fn test_two_globals() {
 	glob2 := 'var j = 32;'
 
 	// Add to state
-	state.push_code(glob1)!
-	state.push_code(glob2)!
+	state.eval(glob1)!
+	state.eval(glob2)!
 
 	var_one := state.get_global_int('i') or { 0 }
 	var_two := state.get_global_int('j') or { 0 }
@@ -104,7 +104,7 @@ fn test_invalid_global_int() {
 	content := 'var i = 42;'
 
 	// Add to state
-	state.push_code(content)!
+	state.eval(content)!
 
 	value := state.get_global_int('j') or {
 		state.destroy()
@@ -141,7 +141,7 @@ fn test_get_global_idiomatic() {
 				var b = true;'
 
 	// Add to state
-	state.push_code(content)!
+	state.eval(content)!
 
 	// Get the globals
 

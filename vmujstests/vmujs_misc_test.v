@@ -10,7 +10,7 @@ fn test_invalid_code_push() {
 	func := 'var b = '
 
 	// Add to state
-	state.push_code(func) or {
+	state.eval(func) or {
 		// The code isn't valid
 		state.destroy()
 		assert true

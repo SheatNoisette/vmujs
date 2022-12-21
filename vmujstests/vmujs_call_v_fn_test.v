@@ -22,7 +22,7 @@ fn test_simple_vfunction_call() {
 	state.register_function('simple', 0, simple_vfunction_call_callback)
 	state.set_function_data('simple', 'test', 'Hello')
 
-	state.push_code('simple()') or { panic('failed to push code') }
+	state.eval('simple()') or { panic('failed to push code') }
 
 	assert state.get_function_data('simple')['test'] == 'Hello World!'
 }
@@ -47,7 +47,7 @@ fn test_simple_isqrt() {
 
 	state.register_function('isqrt', 1, simple_isqrt_callback)
 
-	state.push_code('var out = isqrt(9);') or { panic('failed to push code') }
+	state.eval('var out = isqrt(9);') or { panic('failed to push code') }
 
 	number := state.get_global_int('out') or { panic('failed to get global') }
 
@@ -77,7 +77,7 @@ fn test_simple_add_array_together() {
 
 	state.register_function('add_array_together', 1, simple_add_array_together_callback)
 
-	state.push_code('var out = add_array_together([1, 2, 3, 4, 5]);') or {
+	state.eval('var out = add_array_together([1, 2, 3, 4, 5]);') or {
 		panic('failed to push code')
 	}
 
@@ -115,7 +115,7 @@ fn test_simple_add_two_arrays_together() {
 
 	state.register_function('add_two_arrays_together', 2, simple_add_two_arrays_together_callback)
 
-	state.push_code('var out = add_two_arrays_together([1, 2, 3, 4, 5], [1, 2, 3, 4, 5]);') or {
+	state.eval('var out = add_two_arrays_together([1, 2, 3, 4, 5], [1, 2, 3, 4, 5]);') or {
 		panic('failed to push code')
 	}
 

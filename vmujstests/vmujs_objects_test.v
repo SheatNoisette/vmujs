@@ -26,7 +26,7 @@ fn test_string_map_to_object() {
 	state.set_global_stack('myobj')
 
 	// Use a variables to destructure the object
-	state.push_code('
+	state.eval('
 		var mystr = myobj.mystr;
 		var myint = myobj.myint;
 		var mybool = myobj.mybool;

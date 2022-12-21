@@ -51,6 +51,6 @@ fn main() {
 		mut line := os.get_line()
 
 		// Evaluate the line - Don't crash on errors
-		vm.push_code(line) or {}
+		vm.eval(line) or {}
 	}
 }
