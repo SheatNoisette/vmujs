@@ -32,6 +32,7 @@ mut:
 	mujs_state &C.js_State // MuJS state
 	fn_map     map[string]VMuJSValueFnCallback // Map of functions for JS -> V
 	fn_data    map[string]map[string]string    // Map of data for JS -> V
+	user_data  voidptr
 }
 
 // Strict mode enum - New State
@@ -89,6 +90,17 @@ pub fn new_state(strict_mode VMuJSStrictMode) &VMuJS {
 // Get the VMuJS state from a MuJS state
 pub fn get_vmujs(mujs_state &C.js_State) &VMuJS {
 	return voidptr(mujs_state.vmujs_state)
+}
+
+// Set the user data
+// Useful to get the some data passed
+pub fn (mut vm VMuJS) set_user_data(user_data voidptr) {
+	vm.user_data = user_data
+}
+
+// Get the user data
+pub fn (vm &VMuJS) get_user_data() voidptr {
+	return vm.user_data
 }
 
 // Destroy a state
