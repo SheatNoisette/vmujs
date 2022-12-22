@@ -77,9 +77,7 @@ fn test_simple_add_array_together() {
 
 	state.register_function('add_array_together', 1, simple_add_array_together_callback)
 
-	state.eval('var out = add_array_together([1, 2, 3, 4, 5]);') or {
-		panic('failed to push code')
-	}
+	state.eval('var out = add_array_together([1, 2, 3, 4, 5]);') or { panic('failed to push code') }
 
 	number := state.get_global_int('out') or { panic('failed to get global') }
 

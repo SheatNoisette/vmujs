@@ -19,7 +19,7 @@ fn print_callback(state &vmujs.VMuJSCallback) {
 	mut vm := vmujs.get_vmujs(state)
 
 	// Pop the string from the stack
-	mut str := vm.pop_string() or { "" }
+	mut str := vm.pop_string() or { '' }
 
 	// Print the string
 	println(str)
@@ -32,20 +32,22 @@ fn main() {
 	// Make a new MuJS state in strict mode
 	mut vm := vmujs.new_state(.strict)
 	// Destroy the state when we're done
-	defer { vm.destroy() }
+	defer {
+		vm.destroy()
+	}
 
 	// Register a exit function
-	vm.register_function("exit", 1, exit_callback)
+	vm.register_function('exit', 1, exit_callback)
 	// Add a simple printing function
-	vm.register_function("print", 1, print_callback)
+	vm.register_function('print', 1, print_callback)
 
-	println("-- VMUJS Repl --")
+	println('-- VMUJS Repl --')
 	println("Type 'exit()' to exit the repl")
 	println("Use 'print()' to print to stdout")
 
 	for {
 		// Fancy prompt
-		print("> ")
+		print('> ')
 
 		// Read a line from stdin
 		mut line := os.get_line()

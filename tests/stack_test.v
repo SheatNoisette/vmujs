@@ -240,9 +240,7 @@ fn test_pop_array_floats() {
 fn test_pop_array_multiple_types() {
 	mut state := vmujs.new_state(.non_strict)
 
-	state.eval('var array = [1, "Hello", true, 2.0, false];') or {
-		panic('Could not push code')
-	}
+	state.eval('var array = [1, "Hello", true, 2.0, false];') or { panic('Could not push code') }
 
 	// Place the array on the stack
 	state.push_global('array')

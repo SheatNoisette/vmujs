@@ -14,5 +14,5 @@ mkdir -p bin
 # Build each file
 for file in $files; do
     echo "Building $file"
-    v -o bin/$(basename $file .v) $file
+    v -prod -gc none -skip-unused -o bin/$(basename $file .v) $file
 done
