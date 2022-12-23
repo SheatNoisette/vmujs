@@ -93,7 +93,7 @@ pub fn get_vmujs(mujs_state &C.js_State) &VMuJS {
 }
 
 // Set the user data
-// Useful to get the some data passed
+// Useful to get the some data passed around
 pub fn (mut vm VMuJS) set_user_data(user_data voidptr) {
 	vm.user_data = user_data
 }
@@ -116,15 +116,11 @@ pub fn (vm &VMuJS) eval(code string) ! {
 }
 
 // Load a file into the state
-pub fn (vm &VMuJS) load_file(file string) {
-	unsafe {
-		C.js_dofile(vm.mujs_state, file.str)
-	}
+pub fn (vm &VMuJS) eval_file(file string) {
+	C.js_dofile(vm.mujs_state, file.str)
 }
 
 // Garbage collect the state
 pub fn (vm &VMuJS) gc() {
-	unsafe {
-		C.js_gc(vm.mujs_state, 0)
-	}
+	C.js_gc(vm.mujs_state, 0)
 }
