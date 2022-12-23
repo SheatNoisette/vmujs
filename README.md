@@ -25,19 +25,69 @@ Please, note that this is a work in progress. The API is not stable and may chan
 Here is a list of what is currently done:
 - [x] Raw .c.v bindings
 - [ ] V friendly API
-- [ ] Examples
-- [ ] General documentation
+- [X] Examples
+- [X] Basic general documentation
+- [ ] General documentation (Markdown)
 - [ ] Clean up
 
 V friendly API feature support:
+- [X] Eval JS code
 - [x] Basic types
 - [X] Global variables (int, float, string, bool)
 - [X] Call JS functions from V
 - [X] Call V functions from JS
+- [ ] Arrays
+  - [X] Basic arrays (int, float, string, bool)
+  - [ ] Recursive arrays
 - [ ] Custom error handlers
 - [ ] JS Objects
 
 If you need a feature that is not listed, you can call the raw MuJS API from V using `C` types.
+
+## Quick start
+
+First, install VMuJS using VPM:
+```bash
+$ v install --git https://github.com/SheatNoisette/vmujs
+```
+As the module is not yet in VPM, you need to use the `--git` flag.
+
+Then, you can use VMuJS in your V projects:
+```v
+import vmujs
+
+fn main() {
+    // Create a new VM with strict mode
+    mut vm := vmujs.new_state(.strict)
+
+	// Register a function - print, with 1 argument
+	vm.register_function('print', 1, fn (vm &vmujs.VMuJSCallback) {
+
+		// Get the MuJS state
+		mut callback_state := vmujs.get_vmujs(vm)
+
+        // Pop the argument from the stack
+        argument := callback_state.pop_string() or { panic("Can't pop !") }
+
+        // Print the argument
+        println(argument)
+
+        // Return nothing - undefined
+        callback_state.push_undefined()
+	})
+
+    // Eval a line of JS
+    vm.eval('print("Hello World!")') or { panic("Can't eval !") }
+
+    // Destroy the VM
+    vm.destroy()
+}
+```
+
+## Examples
+
+You can find some examples in the `examples` folder. These examples goes a bit
+further than the quick start example.
 
 ## Using Docker
 
